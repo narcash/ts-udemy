@@ -1,0 +1,11 @@
+{
+    "officeId": 45,
+    "isOpened": false,
+    "contacts": {
+        "phone": "+77073167355",
+        "email": "my@gmail.com",
+        "address": {
+            "city": "LA"
+        }
+    }
+}
