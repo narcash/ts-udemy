@@ -23,7 +23,7 @@ const res = skills
     .reduce((a, b) => a + b)
 
 console.log(res);
- */
+
 const skill: [number, string] = [1, 'Dev'];
 // const id = skill[0];
 // const skillName = skill[1];
@@ -32,3 +32,29 @@ const skill: [number, string] = [1, 'Dev'];
 const [id, skillName] = skill;
 
 const arr: [number, string, ...boolean[]] = [1, 'str', false]
+ */
+
+enum StatusCode {
+    SUCCESS,
+    IN_PROGRESS,
+    FAILED
+}
+const res = {
+    message: 'Платеж успешен!',
+    statusCode: 10
+}
+
+if (res.statusCode === StatusCode.SUCCESS) {
+
+}
+function action(status: StatusCode) {
+
+}
+action(StatusCode.SUCCESS)
+
+const enum Roles {
+    ADMIN = 1,
+    USER = 2
+}
+
+const res2 = Roles.ADMIN
