@@ -661,13 +661,18 @@ run()
 //  ************* Getter and Setter
 class User {
     _login!: string;
-    password!: string;
+    _password!: string;
+    _createdAt!: Date;
 
     set login(l: string | number) {
-        this._login = 'user-' + l
+        this._login = 'user-' + l;
+        this._createdAt = new Date();
     }
     get login() {
         return this._login;
+    }
+    async setPassword() {
+
     }
 }
 const user = new User();
