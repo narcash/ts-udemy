@@ -564,34 +564,6 @@ class Admin {
 const admin = new Admin();
 admin.role = 1;
 
-//  **************** Конструктор
-
-class User {
-    name!: string;
-    age!: number;
-    constructor();
-    constructor(name: string);
-    constructor(age: number);
-    constructor(name: string, age: number,);
-    constructor(ageOrName?: string | number, age?: number) {
-        if (typeof ageOrName === 'string') {
-            this.name = ageOrName;
-        } else if (typeof ageOrName === 'number') {
-            this.age = ageOrName;
-        }
-        if (typeof age === 'number') {
-            this.age = age;
-        }
-    }
-}
-
-const user = new User('Nar');
-const user2 = new User();
-const user3 = new User(33);
-const user4 = new User('mir', 33);
-
-
-
 //  **************** Methods
 
 enum PaymentStatus {
@@ -679,7 +651,33 @@ const user = new User();
 user.login = 'myLogin';
 console.log(user);
 console.log(user.login);
-*/
+
+//  **************** Конструктор
+
+class User {
+    name!: string;
+    age!: number;
+
+    constructor();
+    constructor(name: string);
+    constructor(age: number);
+    constructor(name: string, age: number);
+    constructor(ageOrName?: string | number, age?: number) {
+        if (typeof ageOrName === 'string') {
+            this.name = ageOrName;
+        } else if (typeof ageOrName === 'number') {
+            this.age = ageOrName;
+        }
+        if (typeof age === 'number') {
+            this.age = age;
+        }
+    }
+}
+
+const user = new User('nar');
+const user2 = new User();
+const user3 = new User(33);
+const user4 = new User('Nar', 33);
 
 //  ************* Implements
 interface ILogger {
@@ -712,3 +710,161 @@ class User implements IPayable, IDeletable {
     }
     price?: number | undefined;
 }
+
+// *************** Extends Наследование
+
+type PaymentStatus = 'new' | 'paid'
+class Payment {
+    id!: number;
+    status: PaymentStatus = 'new';
+
+    constructor(id: number) {
+        this.id = id;
+    }
+
+    pay() {
+        this.status = 'paid'
+    }
+}
+class PersistedPayment extends Payment {
+    databaseId!: number;
+    paidAt!: Date
+
+    constructor() {
+        const id = Math.random();
+        super(id)
+    }
+
+    save() {
+        //
+    }
+    override pay(date?: Date) {
+        super.pay();
+        if (date) {
+            this.paidAt = date;
+        }
+    }
+}
+
+new PersistedPayment();
+class User {
+    name: string = 'user';
+
+    constructor() {
+        console.log(this.name);
+
+    }
+}
+
+class Admin extends User {
+    name: string = 'admin';
+    constructor() {
+        super();
+        console.log(this.name);
+    }
+}
+new Admin();
+// new Error('');
+class HttpError extends Error {
+    code!: number;
+    constructor(message: string, code?: number) {
+        super(message);
+        this.code = code ?? 500;
+    }
+}
+
+// **************** Композиция против наследования
+
+class User {
+    name!: string;
+
+    constructor(name: string) {
+        this.name = name
+    }
+
+}
+
+class Users extends Array<User> {
+    searchByName(name: string) {
+        return this.filter(u => u.name === name)
+    }
+    override toString(): string {
+        return this.map(u => u.name).join(', ')
+    }
+}
+
+const users = new Users();
+users.push(new User('Nar'));
+users.push(new User('Mir'));
+console.log(users.toString());
+
+class UserList {
+    users!: User[];
+
+    push(u: User) {
+        this.users.push(u);
+    }
+}
+
+class Payment {
+    date!: Date;
+
+}
+
+class UserWithPayment extends Payment {
+    name!: string;
+}
+
+class UserWithPayment2 {
+    user!: User;
+    paymant!: Payment;
+
+    constructor(user: User, payment: Payment) {
+        this.paymant = payment;
+        this.user = user;
+    }
+}
+
+
+// ************* Видимость свойств
+
+class Vehicle {
+    public make!: string;
+    private damages!: string[];
+    private _model!: string;
+    protected run!: number;
+    // #price: number;
+
+    // set model(m: string) {
+    //     this._model = m;
+    // this.#price = 100;
+    // }
+
+    // get model() {
+    //     return this._model;
+    // }
+    isPriceEqual(v: Vehicle) {
+        // return this.#price === v.#price;
+    }
+    addDamage(damage: string) {
+        this.damages.push(damage);
+    }
+
+}
+
+class EuroTrack extends Vehicle {
+    setRun(km: number) {
+        this.run = km / 0.62;
+        //
+    }
+}
+new Vehicle();
+new EuroTrack();
+
+*/
+// *********************   Статические свойтсва
+
+class UserService {
+    static db: any;
+}
+UserService
