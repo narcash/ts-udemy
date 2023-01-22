@@ -825,52 +825,78 @@ class UserWithPayment2 {
     }
 }
 
-*/
+
 // ************* Видимость свойств
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Vehicle = /** @class */ (function () {
-    function Vehicle() {
-    }
+
+class Vehicle {
+    public make!: string;
+    private damages!: string[];
+    private _model!: string;
+    protected run!: number;
     // #price: number;
+
     // set model(m: string) {
     //     this._model = m;
-    //     // this.#price = 100;
+    // this.#price = 100;
     // }
+
     // get model() {
     //     return this._model;
     // }
-    Vehicle.prototype.isPriceEqual = function (v) {
+    isPriceEqual(v: Vehicle) {
         // return this.#price === v.#price;
-    };
-    Vehicle.prototype.addDamage = function (damage) {
-        this.damages.push(damage);
-    };
-    return Vehicle;
-}());
-var EuroTrack = /** @class */ (function (_super) {
-    __extends(EuroTrack, _super);
-    function EuroTrack() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    EuroTrack.prototype.setRun = function (km) {
+    addDamage(damage: string) {
+        this.damages.push(damage);
+    }
+
+}
+
+class EuroTrack extends Vehicle {
+    setRun(km: number) {
         this.run = km / 0.62;
-        // 
-    };
-    return EuroTrack;
-}(Vehicle));
+        //
+    }
+}
 new Vehicle();
 new EuroTrack();
+
+// *********************   Статические свойтсва
+
+class UserService {
+    static db: any;
+    static getUser(id: number) {
+        return UserService.db.findById(id);
+    }
+
+    constructor(id: number) { }
+
+    create() {
+        UserService.db;
+    }
+    static {
+        UserService.db = 'caf';
+    }
+}
+UserService.getUser(1)
+
+const inst = new UserService(1);
+inst.create();
+*/
+// *********************   This
+var Payment = /** @class */ (function () {
+    function Payment() {
+        this.date = new Date();
+    }
+    Payment.prototype.getDate = function () {
+        return this.date;
+    };
+    return Payment;
+}());
+var p = new Payment();
+var user = {
+    id: 1,
+    paymentDate: p.getDate
+};
+console.log(p.getDate());
+console.log(user.paymentDate());

@@ -861,10 +861,43 @@ class EuroTrack extends Vehicle {
 new Vehicle();
 new EuroTrack();
 
-*/
 // *********************   Статические свойтсва
 
 class UserService {
     static db: any;
+    static getUser(id: number) {
+        return UserService.db.findById(id);
+    }
+
+    constructor(id: number) { }
+
+    create() {
+        UserService.db;
+    }
+    static {
+        UserService.db = 'caf';
+    }
 }
-UserService
+UserService.getUser(1)
+
+const inst = new UserService(1);
+inst.create();
+*/
+
+// *********************   This
+class Payment {
+    private date: Date = new Date();
+
+    getDate() {
+        return this.date;
+    }
+}
+const p = new Payment();
+
+const user = {
+    id: 1,
+    paymentDate: p.getDate
+}
+console.log(p.getDate());
+
+console.log(user.paymentDate());
