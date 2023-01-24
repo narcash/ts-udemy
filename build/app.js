@@ -1,3 +1,4 @@
+"use strict";
 /**
 let info: {
     officeId: number;
@@ -882,13 +883,16 @@ UserService.getUser(1)
 
 const inst = new UserService(1);
 inst.create();
-*/
 
 // *********************   This
 class Payment {
     private date: Date = new Date();
 
-    getDate() {
+    getDate(this: Payment, a: number) {
+        return this.date;
+    }
+
+    getDateArrow = () => {
         return this.date;
     }
 }
@@ -896,8 +900,60 @@ const p = new Payment();
 
 const user = {
     id: 1,
-    paymentDate: p.getDate
+    paymentDate: p.getDate.bind(p),
+    paymentDateArrow: p.getDateArrow
 }
-console.log(p.getDate());
+// console.log(p.getDate(1));
+// console.log(user.paymentDate(1));
+// console.log(user.paymentDateArrow());
 
-console.log(user.paymentDate());
+class PaymentPersistant extends Payment {
+    save() {
+        return this.getDateArrow();
+    }
+}
+console.log(new PaymentPersistant().save());
+
+// *********************  типизация this
+
+class UserBuilder {
+    name!: string;
+
+    setName(name: string) {
+        this.name = name;
+        return this;
+    }
+    isAdmin(): this is AdminBuilder {
+        return this instanceof AdminBuilder;
+    }
+}
+class AdminBuilder extends UserBuilder {
+    roles!: string[];
+}
+const res = new UserBuilder().setName('Nar');
+const res2 = new AdminBuilder().setName('Nar');
+
+let user: UserBuilder | AdminBuilder = new UserBuilder();
+
+if (user.isAdmin()) {
+    console.log(user);
+} else {
+    console.log(user);
+}
+*/
+// *********************  Абстрактные Классы
+class Controller {
+    handleWithLogs(req) {
+        console.log('Start');
+        this.handle(req);
+        console.log('End');
+    }
+}
+class UserController extends Controller {
+    handle(req) {
+        console.log(req);
+    }
+}
+// new Controller() = error
+const c = new UserController();
+c.handleWithLogs('Request');

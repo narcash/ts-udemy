@@ -1,3 +1,5 @@
+// *****
+/**
 class Product {
     constructor(
         public id: number,
@@ -59,3 +61,25 @@ cart.deleteProductById(1);
 cart.setDelivery(new HomeDelivery(new Date(), 'Almaty'));
 console.log(cart.getSum());
 console.log(cart.checkOut());
+*/
+
+// ******* Абстрактный logger
+
+abstract class Logger {
+    abstract log(message: string): void;
+    printDate(date: Date) {
+        this.log(date.toString());
+    }
+}
+class MyLogger extends Logger {
+    log(message: string): void {
+        console.log(message);
+    }
+    logWithDate(message: string) {
+        this.printDate(new Date());
+        this.log(message);
+    }
+}
+
+const logger = new MyLogger();
+logger.logWithDate('my message')

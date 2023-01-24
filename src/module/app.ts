@@ -882,21 +882,122 @@ UserService.getUser(1)
 
 const inst = new UserService(1);
 inst.create();
-*/
+
 // *********************   This
-var Payment = /** @class */ (function () {
-    function Payment() {
-        this.date = new Date();
-    }
-    Payment.prototype.getDate = function () {
+class Payment {
+    private date: Date = new Date();
+
+    getDate(this: Payment, a: number) {
         return this.date;
-    };
-    return Payment;
-}());
-var p = new Payment();
-var user = {
+    }
+
+    getDateArrow = () => {
+        return this.date;
+    }
+}
+const p = new Payment();
+
+const user = {
     id: 1,
-    paymentDate: p.getDate
-};
-console.log(p.getDate());
-console.log(user.paymentDate());
+    paymentDate: p.getDate.bind(p),
+    paymentDateArrow: p.getDateArrow
+}
+// console.log(p.getDate(1));
+// console.log(user.paymentDate(1));
+// console.log(user.paymentDateArrow());
+
+class PaymentPersistant extends Payment {
+    save() {
+        return this.getDateArrow();
+    }
+}
+console.log(new PaymentPersistant().save());
+
+// *********************  типизация this
+
+class UserBuilder {
+    name!: string;
+
+    setName(name: string) {
+        this.name = name;
+        return this;
+    }
+    isAdmin(): this is AdminBuilder {
+        return this instanceof AdminBuilder;
+    }
+}
+class AdminBuilder extends UserBuilder {
+    roles!: string[];
+}
+const res = new UserBuilder().setName('Nar');
+const res2 = new AdminBuilder().setName('Nar');
+
+let user: UserBuilder | AdminBuilder = new UserBuilder();
+
+if (user.isAdmin()) {
+    console.log(user);
+} else {
+    console.log(user);
+}
+
+// *********************  Абстрактные Классы
+
+abstract class Controller {
+    abstract handle(req: any): void;
+
+    handleWithLogs(req: any) {
+        console.log('Start');
+        this.handle(req);
+        console.log('End');
+    }
+}
+
+class UserController extends Controller {
+    handle(req: any): void {
+        console.log(req);
+
+    }
+}
+// new Controller() = error
+const c = new UserController();
+c.handleWithLogs('Request')
+
+
+
+// **** strict режим
+
+function test(a: number) {
+    if (a > 0) {
+        return a
+    }
+}
+*/
+
+// **** проверка кода
+
+class User {
+    role?: 'admin' | 'user'
+    constructor(public name: string) {
+    }
+}
+
+function createUser(user: User) {
+    //
+    const defaultUser = new User('default');
+    defaultUser.role = undefined;
+
+    switch (user.role) {
+        case 'admin':
+            return;
+        case 'user':
+            return true;
+            const c = 1;
+    }
+}
+
+interface Icheks {
+    [check: string]: boolean;
+}
+
+const c: Icheks = {};
+const d = c['drive']
