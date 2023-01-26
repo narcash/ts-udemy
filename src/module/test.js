@@ -84,10 +84,9 @@ const logger = new MyLogger();
 logger.logWithDate('my message')
 */
 // ******   Generic function
-
-function toString<T>(data: T): string | undefined {
+function toString(data) {
     if (Array.isArray(data)) {
-        return data.toString()
+        return data.toString();
     }
     switch (typeof data) {
         case 'string':

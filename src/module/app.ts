@@ -971,7 +971,6 @@ function test(a: number) {
         return a
     }
 }
-*/
 
 // **** проверка кода
 
@@ -1001,3 +1000,31 @@ interface Icheks {
 
 const c: Icheks = {};
 const d = c['drive']
+
+*/
+
+// ****** Generics - обощенный тип
+
+// const num: Array<number> = [1, 2, 3, 4, 5];
+
+// async function test() {
+//     const a = await new Promise<number>((resolve, reject) => {
+//         resolve(1);
+//     })
+// }
+// const check: Record<string, boolean> = {
+//     drive: true,
+//     kpp: false
+// };
+
+function logMiddleware<T>(data: T): T {
+    console.log(data);
+    return data;
+}
+const res = logMiddleware<string>('10');
+
+function getSplitedHalf<T>(data: Array<T>): Array<T> {
+    const l = data.length / 2;
+    return data.slice(0, l);
+}
+getSplitedHalf<number>([1, 3, 4]);
