@@ -62,21 +62,48 @@ cart.deleteProductById(1);
 cart.setDelivery(new HomeDelivery(new Date(), 'Almaty'));
 console.log(cart.getSum());
 console.log(cart.checkOut());
-*/
+
 // ******* Абстрактный logger
-class Logger {
-    printDate(date) {
+
+abstract class Logger {
+    abstract log(message: string): void;
+    printDate(date: Date) {
         this.log(date.toString());
     }
 }
 class MyLogger extends Logger {
-    log(message) {
+    log(message: string): void {
         console.log(message);
     }
-    logWithDate(message) {
+    logWithDate(message: string) {
         this.printDate(new Date());
         this.log(message);
     }
 }
+
 const logger = new MyLogger();
-logger.logWithDate('my message');
+logger.logWithDate('my message')
+*/
+// ******   Generic function
+function toString(data) {
+    if (Array.isArray(data)) {
+        return data.toString();
+    }
+    switch (typeof data) {
+        case 'string':
+            return data;
+        case 'number':
+        case 'symbol':
+        case 'bigint':
+        case 'boolean':
+            return data.toString();
+        case 'object':
+            return JSON.stringify(data);
+        default:
+            return undefined;
+    }
+}
+console.log(toString(3));
+console.log(toString(true));
+console.log(toString(['a', 'g']));
+console.log(toString({ a: 1 }));
