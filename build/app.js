@@ -940,20 +940,87 @@ if (user.isAdmin()) {
 } else {
     console.log(user);
 }
-*/
+
 // *********************  Абстрактные Классы
-class Controller {
-    handleWithLogs(req) {
+
+abstract class Controller {
+    abstract handle(req: any): void;
+
+    handleWithLogs(req: any) {
         console.log('Start');
         this.handle(req);
         console.log('End');
     }
 }
+
 class UserController extends Controller {
-    handle(req) {
+    handle(req: any): void {
         console.log(req);
+
     }
 }
 // new Controller() = error
 const c = new UserController();
-c.handleWithLogs('Request');
+c.handleWithLogs('Request')
+
+
+
+// **** strict режим
+
+function test(a: number) {
+    if (a > 0) {
+        return a
+    }
+}
+
+// **** проверка кода
+
+class User {
+    role?: 'admin' | 'user'
+    constructor(public name: string) {
+    }
+}
+
+function createUser(user: User) {
+    //
+    const defaultUser = new User('default');
+    defaultUser.role = undefined;
+
+    switch (user.role) {
+        case 'admin':
+            return;
+        case 'user':
+            return true;
+            const c = 1;
+    }
+}
+
+interface Icheks {
+    [check: string]: boolean;
+}
+
+const c: Icheks = {};
+const d = c['drive']
+
+*/
+// ****** Generics - обощенный тип
+// const num: Array<number> = [1, 2, 3, 4, 5];
+// async function test() {
+//     const a = await new Promise<number>((resolve, reject) => {
+//         resolve(1);
+//     })
+// }
+// const check: Record<string, boolean> = {
+//     drive: true,
+//     kpp: false
+// };
+function logMiddleware(data) {
+    console.log(data);
+    return data;
+}
+const res = logMiddleware('10');
+function getSplitedHalf(data) {
+    const l = data.length / 2;
+    return data.slice(0, l);
+}
+getSplitedHalf([1, 3, 4]);
